@@ -1,4 +1,4 @@
-from utils.utils import Indexer, getIP, connectTor, changeIP
+from .utils import Indexer, getIP, connectTor, changeIP
 from urllib.parse import unquote, quote
 from bs4 import BeautifulSoup
 from time import time
@@ -23,8 +23,13 @@ class DarkSearch():
         * DeepPaste 
     '''
     def __init__(self):
-        self.sites = ["not_evil", "dark_search", "torch", "ahmia", "candle", "tor66", "visitor", "dark_web_links", "onion_land",
-                      "haystack", "deep_link", "grams", "multivac", "deep_paste"]
+        self.sites = {
+            "not_evil": self.not_evil, "dark_search": self.dark_search, "torch": self.torch,
+            "candle": self.candle, "tor66": self.tor66, "visitor": self.visitor,
+            "dark_web_links": self.dark_web_links, "onion_land": self.onion_land, "ahmia": self.ahmia,
+            "haystack": self.haystack, "deep_link": self.deep_link, "grams": self.grams,
+            "multivac": self.multivac, "deep_paste": self.deep_paste
+            }
         self.session = connectTor()
         self.ip = getIP(self.session)
         self.session.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0"})   
@@ -445,38 +450,11 @@ class DarkSearch():
             final = self.sites
         
         results = []
-        if "torch" in final:
-            results += self.torch(query)
-        if "not_evil" in final:
-            results += self.not_evil(query)
-        if "dark_search" in final:
-            results += self.dark_search(query)
-        if "candle" in final:
-            results += self.candle(query)
-        if "tor66" in final:
-            results += self.tor66(query)
-        if "visitor" in final:
-            results += self.visitor(query)
-        if "dark_web_links" in final:
-            results += self.dark_web_links(query)
-        if "onion_land" in final:
-            results += self.onion_land(query)
-        if "haystack" in final:
-            results += self.haystack(query)
-        if "ahmia" in final:
-            results += self.ahmia(query)
-        if "deep_link" in final:
-            results += self.deep_link(query)
-        if "grams" in final:
-            results += self.grams(query)
-        if "multivac" in final:
-            results += self.multivac(query)
-        if "deep_paste" in final:
-            results += self.deep_paste(query)
+        for key in final:
+            results += self.sites[key](query)
 
         ind = Indexer()
         for i in results:
             ind.join(i)
         
         return ind.results()
-

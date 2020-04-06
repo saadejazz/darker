@@ -1,4 +1,4 @@
-from utils.utils import getIP, connectTor
+from .utils import getIP, connectTor
 from html2text import HTML2Text
 from bs4 import BeautifulSoup
 import validators

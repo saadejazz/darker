@@ -1,8 +1,8 @@
 # pylint: disable=no-member
-from stem import Signal
 from stem.control import Controller
+from stem import Signal
 import requests
-
+import json
 
 def getIP(session):
     try:
@@ -33,7 +33,6 @@ def changeIP():
     with Controller.from_port(port = 9051) as controller:
         controller.authenticate()
         controller.signal(Signal.NEWNYM)
-
 
 class Indexer():
     def __init__(self):
