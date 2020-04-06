@@ -59,12 +59,12 @@ The search results are sorted according to frequency of occurence (score).
 ## Dark Web generic scrapper  
 Scrapes a target web-page on the dark-web 
 The scraper provides the following attributes as a result:  
-* title  
-* links  
-* emails  
-* images  
-* text  
-* bitcoin addresses  
+* Title  
+* Links  
+* Emails  
+* Images  
+* Text  
+* Bitcoin addresses  
 
 **Code:**  
 ```python
