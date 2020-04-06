@@ -1,6 +1,6 @@
-### Dark Web Search and Scrape  
+# Dark Web Search and Scrape  
 
-#### Getting started  
+## Getting started  
 In the working directory of your top level python script:  
 ```bash
 mkdir darker
@@ -19,7 +19,7 @@ Install the following python packages using pip
 * [validators](https://github.com/kvesteri/validators) 
 * [regex](https://bitbucket.org/mrabarnett/mrab-regex)  
 
-#### Dark Web Meta Searcher  
+## Dark Web Meta Searcher  
 Scrapes search results from the following dark web search engines:  
 * [not Evil](https://hss3uro2hsxfogfq.onion.sh/index.php)  
 * [Dark Search](https://darksearch.io)  
@@ -36,7 +36,7 @@ Scrapes search results from the following dark web search engines:
 * [multiVAC](http://multivacigqzqqon.onion/)  
 * [Deep Paste](http://4m6omb3gmrmnwzxi.onion/)
 
-Code:  
+**Code:**  
 ```python
 from darker.dark_search import DarkSearch
 
@@ -45,7 +45,7 @@ results = DarkSearch().searchDarkWeb(query)
 print(results)
 
 ```
-Example Output:  
+**Example Output:**  
 ```python
 {
   'title': 'Euro Guns - Number one guns dealer in onionland - Buy guns and ammo for Bitcoin.',
@@ -56,7 +56,7 @@ Example Output:
 ```
 The search results are sorted according to frequency of occurence (score).  
 
-#### Dark Web generic scrapper  
+## Dark Web generic scrapper  
 Scrapes a target web-page on the dark-web 
 The scraper provides the following attributes as a result:  
 * title  
@@ -66,7 +66,7 @@ The scraper provides the following attributes as a result:
 * text  
 * bitcoin addresses  
 
-Code:  
+**Code:**  
 ```python
 from darker.dark_scrape import DarkScrape
 
@@ -77,7 +77,7 @@ print(d.markdown) # for text in markdown format (thanks to html2text)
 
 ```
 
-Output:  
+**Output:**  
 ```python
 {
  'title': 'DeepPaste',
