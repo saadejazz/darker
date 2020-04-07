@@ -10,6 +10,24 @@ git add .
 git remote add https://github.com/saadejazz/darker
 git pull darker master
 ```
+Install tor service on Ubuntu using  
+```bash
+sudo apt install tor
+```
+Start the service using  
+```bash
+sudo service start tor
+```
+OR  
+```bash
+sudo killall tor
+tor
+```
+Make sure you have tor running before you run scripts. Also update the config file as following: Open /etc/tor/torrc and uncomment the following line  
+```bash
+# ControlPort 9051
+```
+
 Install the following python packages using pip  
 * [requests](https://github.com/psf/requests)  
 * [bs4](https://github.com/getanewsletter/BeautifulSoup4)  
@@ -18,7 +36,6 @@ Install the following python packages using pip
 * [html2text](https://github.com/aaronsw/html2text)  
 * [validators](https://github.com/kvesteri/validators) 
 * [regex](https://bitbucket.org/mrabarnett/mrab-regex)  
-
 ```bash
 python -m pip install requests bs4 stem lxml html2text validators regex
 ```
