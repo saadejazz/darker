@@ -41,7 +41,7 @@ Scrapes search results from the following dark web search engines:
 from darker.dark_search import DarkSearch
 
 query = "guns"
-results = DarkSearch().searchDarkWeb(query)
+results = DarkSearch(timeout = 8).searchDarkWeb(query) # timeout determines wait time for request to EACH site.
 print(results)
 
 ```
@@ -54,7 +54,39 @@ print(results)
   'score': 3
   }
 ```
-The search results are sorted according to frequency of occurence (score).  
+The search results are sorted according to frequency of occurence (score). Python's multiprocessing is used to run requests in parallel.    
+
+To search using individual search engines:  
+```python
+from darker.dark_search import DarkSearch
+
+query = "guns"
+dark = DarkSearch()
+# To view a list of correct site names
+print(dark.listOfSites)
+
+results = dark.search("tor66", query)
+# or you can use the specific function
+# View all functions using:
+dark.sites
+results = dark.visitor(query)
+print(results)
+```
+
+To search a specific group of sites, you can *either* **include** or **exclude** sites from the search:  
+```python
+from darker.dark_search import DarkSearch
+
+query = "guns"
+results = DarkSearch().searchDarkWeb(query, include = ["not_evil", "ahmia", "dark_search"])
+print(results)
+# or
+results = DarkSearch().searchDarkWeb(query, exclude = ["not_evil", "candle", "grams"])
+print(results)
+
+```
+
+**Note:** Some onion sites may be down at times. In that case their results will not be fetched.  
 
 ## Dark Web generic scrapper  
 Scrapes a target web-page on the dark-web 

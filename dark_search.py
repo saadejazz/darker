@@ -1,5 +1,6 @@
 from .utils import Indexer, getIP, connectTor, changeIP
 from urllib.parse import unquote, quote
+from multiprocessing import Pool
 from bs4 import BeautifulSoup
 from time import time
 import requests
@@ -22,19 +23,21 @@ class DarkSearch():
         * MultiVAC   
         * DeepPaste 
     '''
-    def __init__(self):
+    def __init__(self, timeout = 8):
         self.sites = {
             "not_evil": self.not_evil, "dark_search": self.dark_search, "torch": self.torch,
             "candle": self.candle, "tor66": self.tor66, "visitor": self.visitor,
-            "dark_web_links": self.dark_web_links, "onion_land": self.onion_land, "ahmia": self.ahmia,
+            "dark_web_links": self.dark_web_links, "onion_land": self.onion_land,
             "haystack": self.haystack, "deep_link": self.deep_link, "grams": self.grams,
-            "multivac": self.multivac, "deep_paste": self.deep_paste
+            "multivac": self.multivac, "deep_paste": self.deep_paste, "ahmia": self.ahmia,
             }
+        self.timeout = timeout
         self.session = connectTor()
         self.ip = getIP(self.session)
-        self.session.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0"})   
+        self.query = ""
+        self.session.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0"}) 
         if self.ip:
-            print("Connected to: ", self.ip)
+            print("Connected to:", self.ip)
 
     def __initiateSkeleton(self):
         return {
@@ -53,7 +56,7 @@ class DarkSearch():
 
     def get(self, url):
         try:
-            return self.session.get(url)
+            return self.session.get(url, timeout = self.timeout)
         except requests.exceptions.RequestException as err:
             print(f'Error: {err}. Moving on')
             return None
@@ -440,6 +443,14 @@ class DarkSearch():
             results.append(data)
         return results
 
+    def listOfSites(self):
+        print(list(self.sites.keys()))
+
+    def search(self, site, query = None):
+        if query is None:
+            query = self.query
+        return self.sites[site](query)
+
     def searchDarkWeb(self, query, include = None, exclude = None):
         ''' Gets data from search engines specified '''
         if include:
@@ -449,12 +460,13 @@ class DarkSearch():
         else:
             final = self.sites
         
-        results = []
-        for key in final:
-            results += self.sites[key](query)
+        self.query = query
+        pool = Pool(processes = len(final))
+        data = pool.map(self.search, final)
+        resultList = [d for dat in data for d in dat]
+        pool.close()
 
         ind = Indexer()
-        for i in results:
+        for i in resultList:
             ind.join(i)
-        
         return ind.results()
