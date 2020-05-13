@@ -1,6 +1,6 @@
 from .utils import Indexer, getIP, connectTor, changeIP
 from urllib.parse import unquote, quote
-from multiprocessing import Pool
+from billiard import Pool
 from bs4 import BeautifulSoup
 from time import time
 import requests
@@ -23,7 +23,7 @@ class DarkSearch():
         * MultiVAC   
         * DeepPaste 
     '''
-    def __init__(self, timeout = 8):
+    def __init__(self, timeout = 20):
         self.sites = {
             "not_evil": self.not_evil, "dark_search": self.dark_search, "torch": self.torch,
             "candle": self.candle, "tor66": self.tor66, "visitor": self.visitor,
@@ -458,7 +458,7 @@ class DarkSearch():
         elif exclude:
             final = [a for a in self.sites if a not in exclude]
         else:
-            final = self.sites
+            final = list(self.sites.keys())
         
         self.query = query
         pool = Pool(processes = len(final))
