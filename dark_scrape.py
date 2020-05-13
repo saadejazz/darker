@@ -24,6 +24,7 @@ class DarkScrape():
             print("Connected to: ", self.ip)
         self.response = ""
         self.markdown = ""
+        self.url = ""
         self.soup = BeautifulSoup("", "html.parser")
 
     def emails(self):
@@ -44,7 +45,7 @@ class DarkScrape():
     def text(self):
         root = lxml.html.fromstring(self.response)
         lxml.etree.strip_elements(root, lxml.etree.Comment, "script", "head")
-        text = lxml.html.tostring(root, method = "text", encoding = "unicode").replace("\n", " ")
+        text = lxml.html.tostring(root, method = "text", encoding = "unicode").replace("\r \r", "\n").replace("\n", " ").replace("\r", "")
         self.markdown = HTML2Text().handle(text)
         return text
 
@@ -71,12 +72,14 @@ class DarkScrape():
         except requests.exceptions.RequestException as err:
             print("Error: ", err)
             return self
+        self.url = url
         self.soup = BeautifulSoup(self.response, "html.parser")
         return self
     
     @property
     def result(self): 
         return {
+            "url": self.url,
             "title": self.title(),
             "links": self.links(),
             "emails": self.emails(),

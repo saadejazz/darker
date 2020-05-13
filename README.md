@@ -16,10 +16,6 @@ sudo apt install tor
 ```
 Start the service using  
 ```bash
-sudo service start tor
-```
-OR  
-```bash
 sudo killall tor
 tor
 ```
@@ -62,7 +58,7 @@ Scrapes search results from the following dark web search engines:
 from darker.dark_search import DarkSearch
 
 query = "guns"
-results = DarkSearch(timeout = 8).searchDarkWeb(query) # timeout determines wait time for request to EACH site.
+results = DarkSearch().searchDarkWeb(query)
 print(results)
 
 ```
