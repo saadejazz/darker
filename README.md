@@ -7,8 +7,8 @@ mkdir darker
 cd darker
 git init
 git add .
-git remote add https://github.com/saadejazz/darker
-git pull darker master
+git remote add origin https://github.com/saadejazz/darker
+git pull origin master
 ```
 Install tor service on Ubuntu using  
 ```bash
