@@ -77,6 +77,7 @@ print(results)
 ```
 The search results are sorted according to frequency of occurence (score). Python's multiprocessing is used to run requests in parallel.    
 
+**Other Variants**  
 To search using individual search engines:  
 ```python
 from darker.dark_search import DarkSearch
