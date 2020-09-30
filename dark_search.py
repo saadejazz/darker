@@ -7,7 +7,7 @@ import requests
 import json
 
 class DarkSearch():
-    '''Searches and gathers results from the following dark net search engine:
+    '''Searches and gathers results from the following dark net search engines:
         * not Evil
         * Dark Search 
         * torch 
@@ -23,7 +23,7 @@ class DarkSearch():
         * MultiVAC   
         * DeepPaste 
     '''
-    def __init__(self, timeout = 20):
+    def __init__(self, timeout = 30):
         self.sites = {
             "not_evil": self.not_evil, "dark_search": self.dark_search, "torch": self.torch,
             "candle": self.candle, "tor66": self.tor66, "visitor": self.visitor,
@@ -276,7 +276,7 @@ class DarkSearch():
             else:
                 links.append(data["link"])
             data["title"] = self.beautifyText(li.partition("Title: - ")[2].partition("\n")[0])
-            data["description"] = self.beautifyText(li.partition("Description: - ")[2].partition("Legal Notice - ")[0])
+            data["description"] = self.beautifyText(BeautifulSoup(li.partition("Description: - ")[2].partition("Legal Notice - ")[0].text))
             results.append(data)
         return results
     
@@ -449,7 +449,13 @@ class DarkSearch():
     def search(self, site, query = None):
         if query is None:
             query = self.query
-        return self.sites[site](query)
+        res = self.sites[site](query)
+
+        # removing emphasis tags
+        for i in res:
+            for k in ["description", "title"]:
+                i[k] = i[k].replace("<em>", "").replace("</em>", "</em>")
+        return res
 
     def searchDarkWeb(self, query, include = None, exclude = None):
         ''' Gets data from search engines specified '''
