@@ -454,7 +454,7 @@ class DarkSearch():
         # removing emphasis tags
         for i in res:
             for k in ["description", "title"]:
-                i[k] = i[k].replace("<em>", "").replace("</em>", "</em>")
+                i[k] = i[k].replace("<em>", "").replace("</em>", "")
         return res
 
     def searchDarkWeb(self, query, include = None, exclude = None):
