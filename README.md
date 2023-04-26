@@ -33,7 +33,7 @@ Install the following python packages using pip
 * [validators](https://github.com/kvesteri/validators) 
 * [regex](https://bitbucket.org/mrabarnett/mrab-regex)  
 ```bash
-python -m pip install requests bs4 stem lxml html2text validators regex
+python -m pip install requests bs4 stem lxml html2text validators billiard
 ```
 
 ## Dark Web Meta Searcher  
